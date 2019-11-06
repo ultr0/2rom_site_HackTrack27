@@ -1,0 +1,7 @@
+body {
+    font-family: 'Press Start 2P', cursive;
+}
+
+body.login {
+    background: url(../img/map1.jpg) center center;
+}

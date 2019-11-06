@@ -1,10 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'map/base.html' %}
+{% load static %}
+{% load staticfiles %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <a id="modal-827227" href="#modal-answer" role="button" class="btn" data-toggle="modal">
+                    <img src="{% static 'img/map1.jpg' %}" class="img-fluid" alt="Карта 1"/></a>
 
-</body>
-</html>
+                <div class="modal fade" id="modal-answer" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        {% if graz %}
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-success" id="myModalLabel">
+                                        Поздравляем. Вы открыли часть карты.
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-footer">
+
+                                    <a href="/" type="button" class="text-success">
+                                        <button type="submit" class="btn btn-success">
+                                            ПРОДОЛЖИТЬ РАЗГАДЫВАТЬ
+                                        </button>
+                                    </a>
+
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="myModalLabel">
+                                        Введите ваш код.
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <form method="post" enctype="multipart/form-data" action=".">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        {{ form }}
+                                        <div class="text-danger">{{ wrong }}{{ form.non_field_errors }}</div>
+                                    </div>
+                                    <div class="modal-footer">
+
+                                        <button type="submit" class="btn btn-primary">
+                                            ВВОД
+                                        </button>
+                                </form>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    ОТМЕНА
+                                </button>
+                            </div></div>
+                        {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
