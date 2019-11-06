@@ -12,7 +12,7 @@ class Map(models.Model):
     """
     image = models.ImageField(verbose_name="Изображение карты", upload_to="map_img/")
     passcode = models.TextField(verbose_name="Кодовое слово", max_length=300)
-    token = models.TextField(verbose_name="ссылка", max_length=20)
+    token = models.TextField(verbose_name="ссылка", max_length=20, blank=True, null=True)
 
 
 # class Hrono(models.Model):
@@ -30,6 +30,6 @@ class Answer(models.Model):
     """
     answer = models.TextField(verbose_name="Ответ", max_length=300)
     timecode = models.DateTimeField(default=timezone.now)
-    # correct = models.BooleanField(verbose_name="Правильный", default=False)
+    correct = models.BooleanField(verbose_name="Правильный", default=False)
     map = models.ForeignKey(Map, on_delete=models.CASCADE)
     group = models.ForeignKey(User, on_delete=models.CASCADE)
