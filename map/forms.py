@@ -8,7 +8,7 @@ class AddAnswer(ModelForm):
     class Meta:
         model = Answer
         fields = ['answer','map']
-        exclude = ['group']
+        exclude = ['group', 'correct']
         widgets =  {
             'answer': Textarea(attrs={'placeholder': '"!;?*#',
                                 'class': 'form-control',

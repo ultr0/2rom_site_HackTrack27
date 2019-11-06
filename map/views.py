@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views import generic
 
 from map.forms import AddAnswer
-from map.models import Answer
+from map.models import Answer, Map
 
 
 class MainVew(generic.TemplateView):
@@ -18,8 +18,11 @@ class MainVew(generic.TemplateView):
         # prj_done = Project.objects.filter(editor_profile=request.user, admin_approve=True)
         # context['projects_all'] = len(prj_in_progress)
         # context['projects_done'] = len(prj_done)
-        map = Answer.objects.find()
+        correct  = Answer.objects.filter(correct=True, group=request.user).last()
+        map = Map.objects.get(id=(correct.map.id+1))
+
         context['graz'] = None
+        context['map'] = map
         context['form'] = self.form(
         #     initial={
         #     'username':request.user.username,
