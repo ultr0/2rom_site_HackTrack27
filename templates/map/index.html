@@ -3,75 +3,92 @@
 {% load staticfiles %}
 {% block content %}
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <a id="answer" href="#modal-answer" role="button" class="btn" data-toggle="modal">
-                    {% if map %}
-                        <img src="{{ map.image.url }}" class="img-fluid" alt="Карта 1"/>
-                    {% else %}
-                        <img src="{% static 'img/map1.jpg' %}" class="img-fluid" alt="Карта 1"/>
-                    {% endif %}
-                </a>
+    <div class="row">
+        <div class="col-md-12">
+            <a id="answer" href="#modal-answer" role="button" class="btn" data-toggle="modal">
+                {% if map %}
+                    <img src="{{ map.image.url }}" class="img-fluid" alt="Карта 1"/>
+                {% else %}
+                    <img src="{% static 'img/map1.jpg' %}" class="img-fluid" alt="Карта 1"/>
+                {% endif %}
+            </a>
 
-                <div class="modal fade" id="modal-answer" role="dialog" aria-labelledby="myModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        {% if graz %}
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title text-success" id="myModalLabel">
-                                        Поздравляем. Вы открыли часть карты.
-                                    </h5>
-                                    <button type="button" class="close" data-dismiss="modal">
-                                        <span aria-hidden="true">×</span>
+            <div class="modal fade" id="modal-answer" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    {% if graz %}
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-success" id="myModalLabel">
+                                    Поздравляем. Вы открыли часть карты.
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-footer">
+
+                                <a href="/" type="button" class="text-success">
+                                    <button type="submit" class="btn btn-success">
+                                        ПРОДОЛЖИТЬ РАЗГАДЫВАТЬ
                                     </button>
+                                </a>
+
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="myModalLabel">
+                                    Введите ваш код #{{ map.id }}.
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <form method="post" enctype="multipart/form-data" action=".">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                    {{ form }}
+
+                                    {#                                        <input type="hidden" id="map" value="{{map.id}}">#}
+                                    <div class="text-danger">
+                                        {% if error %}{{ error }}{% endif %}{{ form.non_field_errors }}</div>
                                 </div>
                                 <div class="modal-footer">
 
-                                    <a href="/" type="button" class="text-success">
-                                        <button type="submit" class="btn btn-success">
-                                            ПРОДОЛЖИТЬ РАЗГАДЫВАТЬ
-                                        </button>
-                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        ВВОД
+                                    </button>
 
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="myModalLabel">
-                                        Введите ваш код.
-                                    </h5>
-                                    <button type="button" class="close" data-dismiss="modal">
-                                        <span aria-hidden="true">×</span>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                        ОТМЕНА
                                     </button>
                                 </div>
-                                <form method="post" enctype="multipart/form-data" action=".">
-                                    {% csrf_token %}
-                                    <div class="modal-body">
-                                        {{ form }}
-                                        <input type="hidden" id="map" value="1">
-{#                                        <input type="hidden" id="map" value="{{map.id}}">#}
-                                        <div class="text-danger">{{ wrong }}{{ form.non_field_errors }}</div>
-                                    </div>
-                                    <div class="modal-footer">
-
-                                        <button type="submit" class="btn btn-primary">
-                                            ВВОД
-                                        </button>
-
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                            ОТМЕНА
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        {% endif %}
-                    </div>
-
+                            </form>
+                        </div>
+                    {% endif %}
                 </div>
 
             </div>
 
         </div>
+
+    </div>
+{% endblock %}
+{% block extra %}
+    {% if error %}
+        <script type="text/javascript">
+            $(window).on('load', function () {
+                $('#modal-answer').modal('show');
+            });
+        </script>
+    {% elif graz %}
+        <script type="text/javascript">
+            $(window).on('load', function () {
+                $('#modal-answer').modal('show');
+            });
+        </script>
+    {% endif %}
+
 {% endblock %}

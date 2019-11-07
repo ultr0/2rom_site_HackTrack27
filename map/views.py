@@ -9,30 +9,19 @@ from map.models import Answer, Map
 
 class MainVew(generic.TemplateView):
     template_name = 'map/index.html'
+    error = None
+    graz = None
     form = AddAnswer
 
-    def get(self, request, *args, **kwargs):
+    def get(self,request, error=None, graz=None, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-
-        # prj_in_progress = Project.objects.filter(editor_profile=request.user, admin_approve=False)
-        # prj_done = Project.objects.filter(editor_profile=request.user, admin_approve=True)
-        # context['projects_all'] = len(prj_in_progress)
-        # context['projects_done'] = len(prj_done)
         correct  = Answer.objects.filter(correct=True, group=request.user).last()
         map = Map.objects.get(id=(correct.map.id+1))
 
-        context['graz'] = None
+        context['graz'] = graz
+        context['error'] = error
         context['map'] = map
-        context['form'] = self.form(
-        #     initial={
-        #     'username':request.user.username,
-        #     'email':request.user.email,
-        #     'first_name':request.user.first_name,
-        #     'last_name':request.user.last_name,
-        #     'last_login':request.user.last_login,
-        #     'date_joined':request.user.date_joined,
-        # }
-        )
+        context['form'] = self.form(initial={'map': map,})
 
         return self.render_to_response(context)
 
@@ -41,14 +30,16 @@ class MainVew(generic.TemplateView):
         if form.is_valid():
             answer = form.save(commit=False)
             answer.group = request.user
-            map = request.POST['map']
-            answer.map = request.POST['map']
-            print('s')
+            map = Map.objects.filter(id=answer.map.id).first()
+            if map:
+                if answer.answer == map.passcode:
+                    self.graz = 'True'
+                    answer.correct = True
+                else:
+                    answer.correct = False
+                    self.error = 'False'
+                answer.save(form.cleaned_data)
+            else:
+                self.error = 'False'
 
-        # user = User.objects.get(id=request.user.id)
-        # user.last_name = form.data['last_name']
-        # user.email = form.data['email']
-        # user.first_name = form.data['first_name']
-        # # user.username = form.cleaned_data['username']
-        # user.save()
-        return self.get(request, *args, **kwargs)
+        return self.get(request, error=self.error, graz=self.graz, *args, **kwargs)

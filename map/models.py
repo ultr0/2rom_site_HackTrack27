@@ -14,6 +14,8 @@ class Map(models.Model):
     passcode = models.TextField(verbose_name="Кодовое слово", max_length=300)
     token = models.TextField(verbose_name="ссылка", max_length=20, blank=True, null=True)
 
+    def __str__(self):
+        return 'Карта №{}'.format(self.id)
 
 # class Hrono(models.Model):
 #     """
@@ -33,3 +35,6 @@ class Answer(models.Model):
     correct = models.BooleanField(verbose_name="Правильный", default=False)
     map = models.ForeignKey(Map, on_delete=models.CASCADE)
     group = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.answer
