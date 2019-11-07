@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'nwf9=%eb31a5tmefo&=_(3ik_xi9a8&4(o%3c#lru9$##r^vl5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "localhost",
@@ -117,7 +117,7 @@ LOGIN_REDIRECT_URL = '/'
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Vladivostok'
 
 USE_I18N = True
 
