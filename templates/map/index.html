@@ -109,6 +109,12 @@
                 $('#modal-answer').modal('show');
             });
         </script>
+    {% elif WIN %}
+        <script type="text/javascript">
+            $(window).on('load', function () {
+                $('#modal-answer').modal('show');
+            });
+        </script>
     {% endif %}
 
 {% endblock %}
