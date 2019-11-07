@@ -16,7 +16,10 @@ class MainVew(generic.TemplateView):
     def get(self,request, error=None, graz=None, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         correct  = Answer.objects.filter(correct=True, group=request.user).last()
-        map = Map.objects.get(id=(correct.map.id+1))
+        if correct == None:
+            map = Map.objects.first()
+        else:
+            map = Map.objects.get(id=(correct.map.id+1))
 
         context['graz'] = graz
         context['error'] = error
