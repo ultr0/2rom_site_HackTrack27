@@ -19,7 +19,10 @@ class MainVew(generic.TemplateView):
         if correct == None:
             map = Map.objects.first()
         else:
-            map = Map.objects.get(id=(correct.map.id+1))
+            if correct.map.id+1 < 8:
+                map = Map.objects.get(id=(correct.map.id+1))
+            elif map == Map.objects.last():
+                context['WIN'] = True
 
         context['graz'] = graz
         context['error'] = error
