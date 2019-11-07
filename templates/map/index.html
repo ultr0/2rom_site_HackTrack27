@@ -5,6 +5,22 @@
     <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
+
+            <div class="wrap-loader">
+                <div class="loader">
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="box"></div>
+                    <div class="wrap-text">
+                        <div class="text">
+                            <span>H</span><span>A</span><span>C</span><span>K</span><span>T</span><span>R</span><span>A</span><span>C</span><span>K</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="loader-text">Подождите</div>
+            </div>
+
             <a id="answer" href="#modal-answer" role="button" class="btn" data-toggle="modal">
                 {% if map %}
                     <img src="{{ map.image.url }}" class="img-fluid" alt="Карта 1"/>
@@ -97,6 +113,14 @@
     </div>
 {% endblock %}
 {% block extra %}
+    <script type="text/javascript">
+
+        $(window).on('load', function () {
+            $('.wrap-loader').fadeOut().end().delay(500).fadeOut('slow');
+        });
+    </script>
+
+
     {% if error %}
         <script type="text/javascript">
             $(window).on('load', function () {
